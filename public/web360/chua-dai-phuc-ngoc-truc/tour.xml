@@ -1,0 +1,125 @@
+﻿<krpano version="1.23" title="Virtual Tour">
+
+	<include url="skin/vtourskin.xml" />
+
+	<!-- customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ... -->
+	<skin_settings maps="true"
+	               maps_type="openstreetmaps"
+	               maps_bing_api_key=""
+	               maps_google_api_key=""
+	               maps_zoombuttons="false"
+	               maps_loadonfirstuse="true"
+	               gyro="true"
+	               gyro_keeplookingdirection="false"
+	               webvr="true"
+	               webvr_keeplookingdirection="true"
+	               webvr_prev_next_hotspots="true"
+	               autotour="true"
+	               littleplanetintro="false"
+	               followmousecontrol="false"
+	               title="true"
+	               thumbs="true"
+	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
+	               thumbs_opened="false"
+	               thumbs_text="false"
+	               thumbs_dragging="true"
+	               thumbs_onhoverscrolling="false"
+	               thumbs_scrollbuttons="false"
+	               thumbs_scrollindicator="false"
+	               thumbs_loop="true"
+	               tooltips_buttons="false"
+	               tooltips_thumbs="false"
+	               tooltips_hotspots="false"
+	               tooltips_mapspots="false"
+	               deeplinking="false"
+	               loadscene_flags="MERGE"
+	               loadscene_blend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)"
+	               loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)"
+	               loadscene_blend_next="SLIDEBLEND(0.5,   0, 0.75, linear)"
+	               loadingtext=""
+	               layout_width="100%"
+	               layout_maxwidth="814"
+	               controlbar_width="-24"
+	               controlbar_height="110"
+	               controlbar_offset="20"
+	               controlbar_offset_closed="-40"
+	               controlbar_overlap.no-fractionalscaling="10"
+	               controlbar_overlap.fractionalscaling="0"
+	               design_skin_images="vtourskin.png"
+	               design_bgcolor="0x949cef"
+	               design_bgalpha="0.8"
+	               design_bgborder="0"
+	               design_bgroundedge="7"
+	               design_bgshadow="0 4 10 0x000000 0.3"
+	               design_thumbborder_bgborder="3 0xFFFFFF 1.0"
+	               design_thumbborder_padding="2"
+	               design_thumbborder_bgroundedge="1"
+	               design_text_css="color:#FFFFFF; font-family:Arial;"
+	               design_text_shadow="1"
+	               />
+
+	<!--
+	    For an alternative skin design either change the <skin_settings> values 
+	    from above or optionally include one of the predefined designs from below.
+	-->
+	<!-- <include url="skin/vtourskin_design_flat_light.xml"  /> -->
+	<!-- <include url="skin/vtourskin_design_glass.xml"       /> -->
+	<!-- <include url="skin/vtourskin_design_ultra_light.xml" /> -->
+	<!-- <include url="skin/vtourskin_design_117.xml"         /> -->
+	<!-- <include url="skin/vtourskin_design_117round.xml"    /> -->
+	<!-- <include url="skin/vtourskin_design_black.xml"       /> -->
+	
+
+	
+	<scene name="scene_img_20250729_104550_00_025" title="Sân trước" onstart="" thumburl="panos/IMG_20250729_104550_00_025.tiles/thumb.jpg" mapx="0.255" mapy="0.535" lat="0.00000000" lng="0.00000000" alt="0.00" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/IMG_20250729_104550_00_025.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/IMG_20250729_104550_00_025.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+
+		<hotspot name="spot1767419765" style="skin_hotspotstyle" ath="145.399" atv="9.505" depth="1000.0" linkedscene="scene_img_20250729_104733_00_026" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+	</scene>
+
+	<scene name="scene_img_20250729_104733_00_026" title="Sân sau" onstart="" thumburl="panos/IMG_20250729_104733_00_026.tiles/thumb.jpg" mapx="0.62" mapy="0.46" lat="0.00000000" lng="0.00000000" alt="0.00" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/IMG_20250729_104733_00_026.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/IMG_20250729_104733_00_026.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+
+		<hotspot name="spot1767419571" style="skin_hotspotstyle" ath="6.589" atv="3.846" depth="1000.0" linkedscene="scene_img_20250729_104550_00_025" linkedscene_hoffset="0.0" use3dtransition="true" />
+		<hotspot name="spot1767420526" style="skin_hotspotstyle" ath="178.912" atv="8.221" depth="1000.0" linkedscene="scene_img_20250729_105631_00_027" linkedscene_hoffset="0.0" use3dtransition="true" />
+		
+
+	</scene>
+
+	<scene name="scene_img_20250729_105631_00_027" title="Cổng chùa Đại Phúc Ngọc Trục" onstart="" thumburl="panos/IMG_20250729_105631_00_027.tiles/thumb.jpg" mapx="0.75" mapy="0.35" lat="0.00000000" lng="0.00000000" alt="0.00" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/IMG_20250729_105631_00_027.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/IMG_20250729_105631_00_027.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+
+		<hotspot name="spot1767420685" style="skin_hotspotstyle" ath="-50.267" atv="8.645" depth="1000.0" linkedscene="scene_img_20250729_104733_00_026" linkedscene_spot="spot1767420957" linkedscene_hoffset="360.0" use3dtransition="true" />
+
+	</scene>
+
+
+</krpano>

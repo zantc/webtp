@@ -1,0 +1,250 @@
+﻿<krpano version="1.23" title="CHÙA PHÙNG KHOANG">
+
+	<include url="skin/vtourskin.xml" />
+
+	<!-- customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ... -->
+	<skin_settings maps="true"
+	               maps_type="openstreetmaps"
+	               maps_bing_api_key=""
+	               maps_google_api_key=""
+	               maps_zoombuttons="false"
+	               maps_loadonfirstuse="true"
+	               gyro="true"
+	               gyro_keeplookingdirection="false"
+	               webvr="true"
+	               webvr_keeplookingdirection="true"
+	               webvr_prev_next_hotspots="true"
+	               autotour="true"
+	               littleplanetintro="false"
+	               followmousecontrol="false"
+	               title="true"
+	               thumbs="true"
+	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
+	               thumbs_opened="false"
+	               thumbs_text="false"
+	               thumbs_dragging="true"
+	               thumbs_onhoverscrolling="false"
+	               thumbs_scrollbuttons="false"
+	               thumbs_scrollindicator="false"
+	               thumbs_loop="true"
+	               tooltips_buttons="false"
+	               tooltips_thumbs="false"
+	               tooltips_hotspots="false"
+	               tooltips_mapspots="false"
+	               deeplinking="false"
+	               loadscene_flags="MERGE"
+	               loadscene_blend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)"
+	               loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)"
+	               loadscene_blend_next="SLIDEBLEND(0.5,   0, 0.75, linear)"
+	               loadingtext=""
+	               layout_width="100%"
+	               layout_maxwidth="814"
+	               controlbar_width="-24"
+	               controlbar_height="110"
+	               controlbar_offset="20"
+	               controlbar_offset_closed="-40"
+	               controlbar_overlap.no-fractionalscaling="10"
+	               controlbar_overlap.fractionalscaling="0"
+	               design_skin_images="vtourskin.png"
+	               design_bgcolor="0x949cef"
+	               design_bgalpha="0.8"
+	               design_bgborder="0"
+	               design_bgroundedge="7"
+	               design_bgshadow="0 4 10 0x000000 0.3"
+	               design_thumbborder_bgborder="3 0xFFFFFF 1.0"
+	               design_thumbborder_padding="2"
+	               design_thumbborder_bgroundedge="1"
+	               design_text_css="color:#FFFFFF; font-family:Arial;"
+	               design_text_shadow="1"
+	               />
+
+	<!--
+	    For an alternative skin design either change the <skin_settings> values 
+	    from above or optionally include one of the predefined designs from below.
+	-->
+	<!-- <include url="skin/vtourskin_design_flat_light.xml"  /> -->
+	<!-- <include url="skin/vtourskin_design_glass.xml"       /> -->
+	<!-- <include url="skin/vtourskin_design_ultra_light.xml" /> -->
+	<!-- <include url="skin/vtourskin_design_117.xml"         /> -->
+	<!-- <include url="skin/vtourskin_design_117round.xml"    /> -->
+	<!-- <include url="skin/vtourskin_design_black.xml"       /> -->
+	
+
+	
+	<scene name="scene_img_20250729_164547_00_049" title="Sân trước" onstart="lookat(0,0,150.0);" thumburl="panos/IMG_20250729_164547_00_049.tiles/thumb.jpg" mapx="0.255" mapy="0.535" lat="20.98789235074895" lng="105.79345599933802" alt="0.00" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/IMG_20250729_164547_00_049.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/IMG_20250729_164547_00_049.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+
+		<hotspot name="spot1764657966" use3dtransition="true" style="skin_hotspotstyle" ath="-171.355" atv="15.973" depth="1000.0" linkedscene="scene_img_20250729_164653_00_050" linkedscene_lookat="0.0,0.0,150.0" linkedscene_spot="spot1764658360" linkedscene_hoffset="0"  />
+		<hotspot name="spot1764658762" use3dtransition="true" style="skin_hotspotstyle" ath="-56.27" atv="9.821" depth="1000.0" linkedscene="scene_img_20250729_164942_00_052" linkedscene_lookat="-3.77,-1.77,150.0" linkedscene_spot="spot1764659190" linkedscene_hoffset="0"  />
+		<hotspot name="spot1764659843" use3dtransition="true" style="skin_hotspotstyle" ath="-4.666" atv="16.055" depth="1000.0" linkedscene="scene_img_20250729_165116_00_053" linkedscene_lookat="-2.22,-9.3,150.0" />
+		
+
+		
+
+	</scene>
+
+	<scene name="scene_img_20250729_164653_00_050" title="Thủy đình" onstart="lookat(0,0,150.0);" thumburl="panos/IMG_20250729_164653_00_050.tiles/thumb.jpg" mapx="0.18" mapy="0.75" lat="20.98789235074895" lng="105.79345599933802" alt="0.00" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/IMG_20250729_164653_00_050.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/IMG_20250729_164653_00_050.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+
+		
+		<hotspot name="spot1764654193" use3dtransition="true" style="skin_hotspotstyle" ath="6.784" atv="21.691" depth="1000.0" linkedscene="scene_img_20250729_164830_00_051" linkedscene_lookat="0.0,0.0,150.0" linkedscene_spot="spot1764653663" linkedscene_hoffset="0"  />
+		
+		<hotspot name="spot1764658360" use3dtransition="true" style="skin_hotspotstyle" ath="-166.669" atv="36.338" depth="1000.0" linkedscene="scene_img_20250729_164547_00_049" linkedscene_lookat="0.0,0.0,150.0" linkedscene_spot="spot1764657966" linkedscene_hoffset="0"  />
+		
+		
+
+	</scene>
+
+	<scene name="scene_img_20250729_164830_00_051" title="Tượng phật quan âm" onstart="lookat(0,0,150.0);" thumburl="panos/IMG_20250729_164830_00_051.tiles/thumb.jpg" mapx="0.32" mapy="0.95" lat="20.98789235074895" lng="105.79345599933802" alt="0.00" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/IMG_20250729_164830_00_051.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/IMG_20250729_164830_00_051.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+
+		
+		<hotspot name="spot1764653663" use3dtransition="true" style="skin_hotspotstyle" ath="-51.944" atv="11.473" depth="1000.0" linkedscene="scene_img_20250729_164547_00_049" linkedscene_lookat="0.0,0.0,150.0" linkedscene_spot="spot1764654193" linkedscene_hoffset="0"  />
+		
+
+	</scene>
+
+	<scene name="scene_img_20250729_164942_00_052" title="Khu phụ trợ" onstart="lookat(0,0,150.0);" thumburl="panos/IMG_20250729_164942_00_052.tiles/thumb.jpg" mapx="0.36" mapy="0.32" lat="20.98789235074895" lng="105.79345599933802" alt="0.00" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/IMG_20250729_164942_00_052.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/IMG_20250729_164942_00_052.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+
+		<hotspot name="spot1764659190" use3dtransition="true" style="skin_hotspotstyle" ath="100.129" atv="32.285" depth="1000.0" linkedscene="scene_img_20250729_164547_00_049" linkedscene_lookat="-3.77,-1.77,150.0" linkedscene_spot="spot1764658762" linkedscene_hoffset="0"  />
+		<hotspot name="spot1772402145" style="skin_hotspot_flycam_style" ath="53.328" atv="-15.355" depth="1000.0"  width="180" height="140" linkedscene="scene_img_20250729_165807_00_056" linkedscene_hoffset="0.0" use3dtransition="true" />
+		<hotspot name="spot1772402145thumb"  witdh="40%" height="20%" visible="false" url="panos/IMG_20250729_165807_00_056.tiles/thumb.jpg" oy="125" ox="30" ath="53.328" atv="-15.355" depth="1000.0" linkedscene="scene_img_20250729_165807_00_056" linkedscene_hoffset="0.0" use3dtransition="true"  />
+		<hotspot name="spot1772402145text"  witdh="40%" height="2.5%" visible="false" type="text" html="Nhà Hậu" css="font-size:20px; border:5px;" bgroundedge="7" oy="225" ox="30" ath="53.328" atv="-15.355" depth="1000.0" linkedscene="scene_img_20250729_165807_00_056" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+	</scene>
+
+	<scene name="scene_img_20250729_165116_00_053" title="Sân trước chính điện" onstart="lookat(0,0,150.0);" thumburl="panos/IMG_20250729_165116_00_053.tiles/thumb.jpg" mapx="0.47" mapy="0.66" lat="20.98789235074895" lng="105.79345599933802" alt="0.00" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/IMG_20250729_165116_00_053.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/IMG_20250729_165116_00_053.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+
+		<hotspot name="spot1764660231" use3dtransition="true" style="skin_hotspotstyle" ath="178.032" atv="20.506" depth="1000.0" linkedscene="scene_img_20250729_164547_00_049" linkedscene_lookat="-2.22,-9.3,150.0" linkedscene_spot="spot1764659843" linkedscene_hoffset="0"  />
+		<hotspot name="spot1764660442" use3dtransition="true" style="skin_hotspotstyle" ath="-1.853" atv="14.657" depth="1000.0" linkedscene="scene_img_20250729_165502_00_054" linkedscene_lookat="-5.32,-15.51,150.0" />
+		<hotspot name="spot1764661465" use3dtransition="true" style="skin_hotspotstyle" ath="-75.341" atv="15.742" depth="1000.0" linkedscene="scene_img_20250729_165655_00_055" linkedscene_lookat="-3.32,-8.64,150.0" linkedscene_spot="spot1764661935" linkedscene_hoffset="0"  />
+		
+
+	</scene>
+
+	<scene name="scene_img_20250729_165502_00_054" title="Chính điện" onstart="lookat(0,0,150.0);" thumburl="panos/IMG_20250729_165502_00_054.tiles/thumb.jpg" mapx="0.70" mapy="0.85" lat="20.98789235074895" lng="105.79345599933802" alt="0.00" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/IMG_20250729_165502_00_054.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/IMG_20250729_165502_00_054.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+
+		<hotspot name="spot1764661265" use3dtransition="true" style="skin_hotspotstyle" ath="175.909" atv="40.195" depth="1000.0" linkedscene="scene_img_20250729_165116_00_053" linkedscene_lookat="-5.32,-15.51,150.0" linkedscene_spot="spot1764660442" linkedscene_hoffset="0"  />
+		<hotspot name="spot1772402952" style="skin_hotspot_flycam_style" ath="45.055" atv="-23.743" depth="1000.0"  width="200" height="150" linkedscene="scene_img_20250729_164653_00_050" linkedscene_hoffset="0.0" use3dtransition="true" />
+		<hotspot name="spot1772402952thumb"  witdh="40%" height="20%" visible="false" url="panos/IMG_20250729_164653_00_050.tiles/thumb.jpg" oy="125" ox="30" ath="45.055" atv="-23.743" depth="1000.0" linkedscene="scene_img_20250729_164653_00_050" linkedscene_hoffset="0.0" use3dtransition="true"  />
+		<hotspot name="spot1772402952text"  witdh="40%" height="2.5%" visible="false" type="text" html="Thủy đình" css="font-size:20px; border:5px;" bgroundedge="7" oy="225" ox="30" ath="45.055" atv="-23.743" depth="1000.0" linkedscene="scene_img_20250729_164653_00_050" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+	</scene>
+
+	<scene name="scene_img_20250729_165655_00_055" title="Sân trước nhà Tổ" onstart="lookat(0,0,150.0);" thumburl="panos/IMG_20250729_165655_00_055.tiles/thumb.jpg" mapx="0.62" mapy="0.46" lat="20.98789235074895" lng="105.79345599933802" alt="0.00" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/IMG_20250729_165655_00_055.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/IMG_20250729_165655_00_055.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+
+		<hotspot name="spot1764661935" use3dtransition="true" style="skin_hotspotstyle" ath="131.655" atv="16.616" depth="1000.0" linkedscene="scene_img_20250729_165116_00_053" linkedscene_lookat="-3.32,-8.64,150.0" linkedscene_spot="spot1764661465" linkedscene_hoffset="0"  />
+		<hotspot name="spot1764662123" use3dtransition="true" style="skin_hotspotstyle" ath="-62.598" atv="13.005" depth="1000.0" linkedscene="scene_img_20250729_165807_00_056" linkedscene_lookat="-5.31,-14.62,150.0" linkedscene_spot="spot1764662496" linkedscene_hoffset="0"  />
+		<hotspot name="spot1764663073" use3dtransition="true" style="skin_hotspotstyle" ath="-3.481" atv="24.158" depth="1000.0" linkedscene="scene_img_20250729_170121_00_057" linkedscene_lookat="-1.33,-10.41,150.0" linkedscene_spot="spot1764663640" linkedscene_hoffset="0"  />
+		
+
+	</scene>
+
+	<scene name="scene_img_20250729_165807_00_056" title="Nhà Hậu" onstart="lookat(0,0,150.0);" thumburl="panos/IMG_20250729_165807_00_056.tiles/thumb.jpg" mapx="0.56" mapy="0.28" lat="20.98789235074895" lng="105.79345599933802" alt="0.00" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/IMG_20250729_165807_00_056.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/IMG_20250729_165807_00_056.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+
+		<hotspot name="spot1764662496" use3dtransition="true" style="skin_hotspotstyle" ath="-164.236" atv="24.017" depth="1000.0" linkedscene="scene_img_20250729_165655_00_055" linkedscene_lookat="-4.65,-8.86,150.0" linkedscene_spot="spot1764662123" linkedscene_hoffset="0"  />
+		
+		<hotspot name="spot1772404231" style="skin_hotspot_flycam_style" ath="50.408" atv="-23.787" depth="1000.0"  width="200" height="150" linkedscene="scene_img_20250729_170121_00_057" linkedscene_hoffset="0.0" use3dtransition="true" />
+		<hotspot name="spot1772404231thumb"  witdh="40%" height="20%" visible="false" url="panos/IMG_20250729_170121_00_057.tiles/thumb.jpg" oy="125" ox="30" ath="50.408" atv="-23.787" depth="1000.0" linkedscene="scene_img_20250729_170121_00_057" linkedscene_hoffset="0.0" use3dtransition="true"  />
+		<hotspot name="spot1772404231text"  witdh="40%" height="2.5%" visible="false" type="text" html="Nhà Tổ" css="font-size:20px; border:5px;" bgroundedge="7" oy="225" ox="30" ath="50.408" atv="-23.787" depth="1000.0" linkedscene="scene_img_20250729_170121_00_057" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+	</scene>
+
+	<scene name="scene_img_20250729_170121_00_057" title="Nhà Tổ" onstart="lookat(0,0,150.0);" thumburl="panos/IMG_20250729_170121_00_057.tiles/thumb.jpg" mapx="0.75" mapy="0.35"  lat="20.98789235074895" lng="105.79345599933802" alt="0.00" heading="0.0">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/IMG_20250729_170121_00_057.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/IMG_20250729_170121_00_057.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,1024,2048,3840" />
+		</image>
+
+		<hotspot name="spot1764663640" use3dtransition="true" style="skin_hotspotstyle" ath="178.29" atv="48.987" depth="1000.0" linkedscene="scene_img_20250729_165655_00_055" linkedscene_lookat="-1.33,-10.41,150.0" linkedscene_spot="spot1764663073" linkedscene_hoffset="0"  />
+		<hotspot name="spot1772400684" style="skin_hotspot_flycam_style" ath="48.611" atv="-19.669" depth="1000.0" linkedscene="scene_img_20250729_165116_00_053"  width="200" height="150" linkedscene_hoffset="0.0" use3dtransition="true" />
+		<hotspot name="spot1772400684thumb"  witdh="40%" height="20%" visible="false" url="panos/IMG_20250729_165116_00_053.tiles/thumb.jpg" oy="125" ox="30" ath="48.611" atv="-19.669" depth="1000.0" linkedscene="scene_img_20250729_165116_00_053" linkedscene_hoffset="0.0" use3dtransition="true"  />
+		<hotspot name="spot1772400684text"  witdh="40%" height="2.5%" visible="false" type="text" html="Sân trước chính điện" css="font-size:20px; border:5px;" bgroundedge="7" oy="225" ox="30" ath="48.611" atv="-19.669" depth="1000.0" linkedscene="scene_img_20250729_165116_00_053" linkedscene_hoffset="0.0" use3dtransition="true" />
+	</scene>
+
+
+</krpano>

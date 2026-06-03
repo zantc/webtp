@@ -1,0 +1,251 @@
+body {
+  background: #e9ecef;
+  font-family: "Korinna";
+  margin: 0 ;
+}
+.container {
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #fff;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: hidden;
+}
+.topbar {
+  background: #444a9b;
+  color: #fff;
+  padding: 8px 32px;
+  display: flex;
+  justify-content: flex-end;
+}
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+.search-input {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.search-input input {
+  padding: 5px 10px;
+  border-radius: 4px;
+  border: none;
+}
+.search-input button {
+  background: #ff9800;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 3px 5px;
+}
+.login, .lang {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  margin-left: 10px;
+}
+.header {
+  background: linear-gradient(90deg, #e0e2f5 60%, #c5c8f7 100%);
+  color: #494747;
+  padding: 18px 32px 10px 32px;
+}
+.logo-menu {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.logo img {
+  width: 55px;
+  height: auto;
+}
+.main-nav>ul {
+  display: flex;
+  gap: 18px;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.main-nav a {
+  color: #5a574c;
+  text-decoration: none;
+  font-weight: 500;
+  position: relative;
+  padding: 8px 8px;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+  font-size: 17px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+.main-nav a:hover {
+  color: #fff;
+}
+.dropdown {
+  position: relative;
+}
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  list-style: none;
+  top: 110%;
+  left: 0;
+  min-width: 200px;
+  background: #fff;
+  color: #1a237e;
+  box-shadow: 0 4px 16px rgba(60, 60, 120, 0.12);
+  z-index: 10;
+  border-radius: 8px;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.2s, transform 0.2s;
+  padding-left: 0;
+  width: max-content;
+}
+.dropdown-menu.show {
+  display: block;
+  opacity: 1;
+  transform: translateY(0);
+}
+.dropdown-menu li {
+  padding: 5px 5px;
+  transition: background 0.2s;
+}
+.dropdown-menu li:hover {
+  background: #d89f55;
+}
+.dropdown-menu a {
+  color: #1a237e;
+  text-decoration: none;
+  font-weight: 500;
+}
+.main-content {
+  // .content{
+  //   padding: 30px;
+  // }
+  #container{
+    height: 80vh;
+  }
+  padding: 0;
+}
+.map-box {
+  background: #f5f7fa;
+  height: 200px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #3949ab;
+  font-size: 1.2rem;
+}
+.vn360-desc {
+  background: #e3e6fd;
+  padding: 16px;
+  border-radius: 8px;
+  color: #1a237e;
+  font-weight: 500;
+}
+.footer {
+  background: linear-gradient(90deg, #d9d8eb 60%, #c7cdf8 100%);
+  color: #000;
+  text-align: left;
+  padding: 36px 32px 18px 32px;
+  margin-top: 36px;
+}
+.footer-cols {
+  display: flex;
+  gap: 48px;
+  margin-bottom: 18px;
+}
+.footer-cols > div {
+  flex: 1;
+}
+.footer-cols h4 {
+  margin-top: 0;
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #0a1394;
+  font-size: 24px;
+}
+.footer-cols ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.footer-cols li {
+  margin-bottom: 6px;
+  color: #464544;
+  font-size: 20px;
+}
+.footer-cols a {
+  color: #464544;
+  text-decoration: underline;
+}
+.copyright {
+  text-align: center;
+  margin-top: 12px;
+  font-size: 15px;
+  color: #464544;
+  opacity: 0.8;
+}
+.banner {
+  background: #f5f7fa;
+  padding: 32px;
+  border-radius: 12px;
+  text-align: center;
+  margin-bottom: 24px;
+}
+.guide, .news, .tour, .map, .vn360 {
+  margin-bottom: 32px;
+}
+.guide-list, .news-list, .tour-list {
+  display: flex;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+.guide-item, .news-item, .tour-item {
+  background: #e3e6fd;
+  padding: 16px 24px;
+  border-radius: 8px;
+  color: #1a237e;
+  font-weight: 500;
+  min-width: 120px;
+}
+
+.article-space {
+    border-bottom: 3px solid #3f4042;
+    width: 229px;
+    margin: 0px auto 15px auto;
+}
+
+.d-flex{
+  display: flex;
+}
+
+.flex-col{
+  flex-direction: column;
+}
+
+.flex-row{
+  flex-direction: row;
+}
+
+.absolute{
+  position: absolute;
+}
+
+.inset-0{
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+}
+
+.f-wrap{
+  flex-wrap: wrap;
+}

@@ -1,0 +1,259 @@
+﻿<krpano version="1.23" title="Virtual Tour" startscene="scene_congvienthongnhat">
+
+	<include url="skin/vtourskin.xml" />
+	<include url="plugins/circle_hotspots.xml" />
+
+	<!-- customize skin settings: maps, gyro, webvr, thumbnails, tooltips, layout, design, ... -->
+	<skin_settings maps="true"
+	               maps_type="openstreetmaps"
+	               maps_bing_api_key=""
+	               maps_google_api_key=""
+	               maps_zoombuttons="false"
+	               maps_loadonfirstuse="true"
+	               gyro="true"
+	               gyro_keeplookingdirection="false"
+	               webvr="true"
+	               webvr_keeplookingdirection="true"
+	               webvr_prev_next_hotspots="true"
+	               autotour="false"
+	               littleplanetintro="false"
+	               followmousecontrol="false"
+	               title="true"
+	               thumbs="true"
+	               thumbs_width="120" thumbs_height="80" thumbs_padding="10" thumbs_crop="0|40|240|160"
+	               thumbs_opened="false"
+	               thumbs_text="false"
+	               thumbs_dragging="true"
+	               thumbs_onhoverscrolling="false"
+	               thumbs_scrollbuttons="false"
+	               thumbs_scrollindicator="false"
+	               thumbs_loop="true"
+	               tooltips_buttons="false"
+	               tooltips_thumbs="false"
+	               tooltips_hotspots="false"
+	               tooltips_mapspots="false"
+	               deeplinking="false"
+	               loadscene_flags="MERGE"
+	               loadscene_blend="OPENBLEND(0.5, 0.0, 0.75, 0.05, linear)"
+	               loadscene_blend_prev="SLIDEBLEND(0.5, 180, 0.75, linear)"
+	               loadscene_blend_next="SLIDEBLEND(0.5,   0, 0.75, linear)"
+	               loadingtext=""
+	               layout_width="100%"
+	               layout_maxwidth="814"
+	               controlbar_width="-24"
+	               controlbar_height="50"
+	               controlbar_offset="20"
+	               controlbar_offset_closed="-40"
+	               controlbar_overlap.no-fractionalscaling="10"
+	               controlbar_overlap.fractionalscaling="0"
+	               design_skin_images="vtourskin.png"
+	               design_bgcolor="0x949cef"
+	               design_bgalpha="0.8"
+	               design_bgborder="0"
+	               design_bgroundedge="7"
+	               design_bgshadow="0 4 10 0x000000 0.3"
+	               design_thumbborder_bgborder="3 0xFFFFFF 1.0"
+	               design_thumbborder_padding="2"
+	               design_thumbborder_bgroundedge="1"
+	               design_text_css="color:#FFFFFF; font-family:Arial;"
+	               design_text_shadow="1"
+	               />
+
+	<!--
+	    For an alternative skin design either change the <skin_settings> values 
+	    from above or optionally include one of the predefined designs from below.
+	-->
+	<!-- <include url="skin/vtourskin_design_flat_light.xml"  /> -->
+	<!-- <include url="skin/vtourskin_design_glass.xml"       /> -->
+	<!-- <include url="skin/vtourskin_design_ultra_light.xml" /> -->
+	<!-- <include url="skin/vtourskin_design_117.xml"         /> -->
+	<!-- <include url="skin/vtourskin_design_117round.xml"    /> -->
+	<!-- <include url="skin/vtourskin_design_black.xml"       /> -->
+	
+	<action name="do_crop_animation" scope="local" args="framewidth, frameheight, framerate">
+		<!-- define local variables -->
+		calc(local.xframes, (caller.imagewidth /framewidth) BOR 0);
+		calc(local.frames, xframes * ((caller.imageheight / frameheight) BOR 0));
+		def(local.frame, integer, 0);
+		
+		<!-- set the first frame -->
+		calc(caller.crop, '0|0|' + framewidth + '|' + frameheight);
+		
+		<!-- do the animation -->
+		setinterval(calc('crop_anim_' + caller.name), calc(1.0 / framerate),
+			if(caller.loaded,
+				inc(frame);
+				if(frame GE frames, if(caller.onlastframe !== null, callwith(caller, onlastframe() ) ); set(frame,0); );
+				mod(xpos, frame, xframes);
+				div(ypos, frame, xframes);
+				Math.floor(ypos);
+				mul(xpos, framewidth);
+				mul(ypos, frameheight);
+				calc(caller.crop, xpos + '|' + ypos + '|' + framewidth + '|' + frameheight);
+			  ,
+				<!-- stop the interval when the hotspot gets removed -->
+				clearinterval(calc('crop_anim_' + caller.name));
+			);
+		);
+	</action>
+	
+	<scene name="scene_chuakhainguyen" title="Chùa Khải Nguyên" thumburl="panos/chuakhainguyen.tiles/thumb.jpg" lat="21.027837945601476" lng="105.83415853510039" alt="12.00" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/chuakhainguyen.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/chuakhainguyen.tiles/%s/l%l/%0v/l%l_%s_%0v_%0h.jpg" multires="512,640,1152,2304,4736" />
+		</image>
+
+		<hotspot name="spot1765663551" style="skin_hotspotstyle" ath="-97.265" atv="7.953" depth="1000.0" linkedscene="scene_vanmieuquoctugiam" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+	</scene>
+
+	<scene name="scene_chuatranquoc" title="Chùa Trấn Quốc" onstart="" thumburl="panos/chuatranquoc.tiles/thumb.jpg" lat="21.048070954000483" lng="105.8368865473273" alt="12.00" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/chuatranquoc.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/chuatranquoc.tiles/%s/l%l/%0v/l%l_%s_%0v_%0h.jpg" multires="512,640,1152,2304,4736" />
+		</image>
+
+		<hotspot name="spot1765660202" style="skin_hotspotstyle" ath="-165.271" atv="7.286" depth="1000.0" linkedscene="scene_vanmieuquoctugiam" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+	</scene>
+
+	<scene name="scene_congvienthongnhat" title="Công Viên Thống Nhất" onstart="" thumburl="panos/congvienthongnhat.tiles/thumb.jpg" lat="21.0143539670762" lng="105.84397246459645" alt="12.00" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="-223.360" vlookat="5.173" fovtype="MFOV" fov="120.000" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/congvienthongnhat.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/congvienthongnhat.tiles/%s/l%l/%0v/l%l_%s_%0v_%0h.jpg" multires="512,640,1152,2304,4736" />
+		</image>
+
+		<hotspot name="scene_nhahatlon" style="hs_circle" url="skin/hotspots/music.png" onloaded="do_crop_animation(120,120,20);" ath="-145.492" atv="0.213" depth="1000.0" linkedscene="scene_nhahatlon" linkedscene_hoffset="0.0" use3dtransition="true" tag="Nhà Hát Lớn"/>
+		<hotspot name="scene_chuakhainguyen" style="hs_circle" url="skin/hotspots/pagoda.png" onloaded="do_crop_animation(120,120,20);" ath="119.753" atv="-0.179" depth="1000.0" linkedscene="scene_chuakhainguyen" linkedscene_hoffset="0.0" use3dtransition="true" tag="Chùa Khai Nguyên"/>
+		<hotspot name="scene_chuatranquoc" style="hs_circle" url="skin/hotspots/temple.png" onloaded="do_crop_animation(120,120,20);" ath="146.553" atv="-0.829" depth="1000.0" linkedscene="scene_chuatranquoc" linkedscene_hoffset="0.0" use3dtransition="true" tag="Chùa Trấn Quốc"/>
+		<hotspot name="scene_denbachma" style="hs_circle" url="skin/hotspots/pagoda.png" onloaded="do_crop_animation(120,120,20);" ath="-175.233" atv="-0.375" depth="1000.0" linkedscene="scene_denbachma" linkedscene_hoffset="0.0" use3dtransition="true" tag="Đền Bạch Mã"/>
+		<hotspot name="scene_nhatholon" style="hs_circle" url="skin/hotspots/church.png" onloaded="do_crop_animation(120,120,20);" ath="-159.73" atv="-0.396" depth="1000.0" linkedscene="scene_nhatholon" linkedscene_hoffset="0.0" use3dtransition="true" tag="Nhà Thờ Lớn"/>
+		<hotspot name="scene_vanmieuquoctugiam" style="hs_circle" url="skin/hotspots/building.png" onloaded="do_crop_animation(120,120,20);" ath="166.031" atv="-1.456" depth="1000.0" linkedscene="scene_vanmieuquoctugiam" linkedscene_hoffset="0.0" use3dtransition="true" tag="Văn Miếu Quốc Tự Giám"/>
+		<hotspot name="scene_trangtien" style="hs_circle" url="skin/hotspots/camera.png" onloaded="do_crop_animation(120,120,20);" ath="-123.203" atv="0.448" depth="1000.0" linkedscene="scene_trangtien" linkedscene_hoffset="0.0" use3dtransition="true" tag="Tràng Tiền"/>
+		<hotspot name="scene_thuvienquocgia" style="hs_circle" url="skin/hotspots/building.png" onloaded="do_crop_animation(120,120,20);" ath="-134.213" atv="0.964" depth="1000.0" linkedscene="scene_thuvienquocgia" linkedscene_hoffset="0.0" use3dtransition="true" tag="Thư Viện Quốc Gia"/>
+
+	</scene>
+
+	<scene name="scene_denbachma" title="Đền Bạch Mã" onstart="" thumburl="panos/denbachma.tiles/thumb.jpg" lat="21.035982857040295" lng="105.85092256494816" alt="12.00" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/denbachma.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/denbachma.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,768,1664,3200" />
+		</image>
+
+		<hotspot name="spot1765659950" style="skin_hotspotstyle" ath="-91.626" atv="11.569" depth="1000.0" linkedscene="scene_chuatranquoc" linkedscene_hoffset="0.0" use3dtransition="true" />
+		<hotspot name="spot1765662866" style="skin_hotspotstyle" ath="74.86" atv="4.351" depth="1000.0" linkedscene="scene_trangtien" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+	</scene>
+
+	<scene name="scene_nhahatlon" title="Nhà Hát Lớn" onstart="" thumburl="panos/nhahatlon.tiles/thumb.jpg" lat="21.024404014191557" lng="105.85755029378377" alt="12.00" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/nhahatlon.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/nhahatlon.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,768,1664,3200" />
+		</image>
+
+		<hotspot name="spot1765664278" style="skin_hotspotstyle" ath="-179.914" atv="14.925" depth="1000.0" linkedscene="scene_trangtien" linkedscene_hoffset="0.0" use3dtransition="true" />
+		<hotspot name="spot1766622347" style="skin_hotspotstyle" ath="-40.351" atv="12.564" depth="1000.0" linkedscene="scene_congvienthongnhat" linkedscene_hoffset="0.0" use3dtransition="true" />
+		<hotspot name="spot1766623095" style="skin_hotspotstyle" ath="61.897" atv="12.494" depth="1000.0" linkedscene="scene_denbachma" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+
+	</scene>
+
+	<scene name="scene_nhatholon" title="Nhà Thờ Lớn" onstart="" thumburl="panos/nhatholon.tiles/thumb.jpg" lat="21.028787495167624" lng="105.84883309563483" alt="12.00" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/nhatholon.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/nhatholon.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,768,1664,3200" />
+		</image>
+
+		<hotspot name="spot1765664670" style="skin_hotspotstyle" ath="-157.144" atv="15.559" depth="1000.0" linkedscene="scene_thuvienquocgia" linkedscene_hoffset="0.0" use3dtransition="true" />
+		<hotspot name="scene_denbachma" style="hs_circle" url="skin/hotspots/pagoda.png"  onloaded="do_crop_animation(120,120,20);" ath="-22.959" atv="-0.931" depth="1000.0" linkedscene="scene_denbachma" linkedscene_hoffset="0.0" use3dtransition="true" tag="Đền Bạch Mã" />
+		<hotspot name="scene_trangtien" style="hs_circle" url="skin/hotspots/camera.png" onloaded="do_crop_animation(120,120,20);" ath="60.89" atv="-0.827" depth="1000.0" linkedscene="scene_trangtien" linkedscene_hoffset="0.0" use3dtransition="true" tag="Phố Tràng Tiền" />
+
+	</scene>
+
+	<scene name="scene_thuvienquocgia" title="Thư Viện Quốc Gia" onstart="" thumburl="panos/thuvienquocgia.tiles/thumb.jpg" lat="21.026289156964673" lng="105.84922582261976" alt="12.00" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/thuvienquocgia.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/thuvienquocgia.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,768,1664,3200" />
+		</image>
+
+		<hotspot name="spot1765661978" style="skin_hotspotstyle" ath="-175.657" atv="20.34" depth="1000.0" linkedscene="scene_trangtien" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+	</scene>
+
+	<scene name="scene_trangtien" title="Phố Tràng Tiền" onstart="" thumburl="panos/trangtien.tiles/thumb.jpg" lat="21.02501707178623" lng="105.85331678214229" alt="12.00" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/trangtien.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/trangtien.tiles/%s/l%l/%v/l%l_%s_%v_%h.jpg" multires="512,768,1664,3200" />
+		</image>
+
+		<hotspot name="spot1765662388" style="skin_hotspotstyle" ath="132.37" atv="0.689" depth="1000.0" linkedscene="scene_thuvienquocgia" linkedscene_hoffset="0.0" use3dtransition="true" />
+		<hotspot name="spot1765662523" style="skin_hotspotstyle" ath="-138.997" atv="5.61" depth="1000.0" linkedscene="scene_denbachma" linkedscene_hoffset="0.0" use3dtransition="true" />
+		<hotspot name="spot1765664434" style="skin_hotspotstyle" ath="-29.616" atv="8.811" depth="1000.0" linkedscene="scene_nhahatlon" linkedscene_hoffset="0.0" use3dtransition="true" />
+
+	</scene>
+
+	<scene name="scene_vanmieuquoctugiam" title="Văn Miếu Quốc Tự Giám" onstart="" thumburl="panos/vanmieuquoctugiam.tiles/thumb.jpg" lat="21.028217624018467" lng="105.83563700912727" alt="12.00" heading="">
+		
+		<control bouncinglimits="calc:image.cube ? true : false" />
+
+		<view hlookat="0.0" vlookat="0.0" fovtype="MFOV" fov="120" maxpixelzoom="2.0" fovmin="70" fovmax="140" limitview="auto" />
+
+		<preview url="panos/vanmieuquoctugiam.tiles/preview.jpg" />
+
+		<image>
+			<cube url="panos/vanmieuquoctugiam.tiles/%s/l%l/%0v/l%l_%s_%0v_%0h.jpg" multires="512,640,1152,2304,4736" />
+		</image>
+
+		<hotspot name="scene_chuatranquoc" style="hs_circle" url="skin/hotspots/temple.png" onloaded="do_crop_animation(120,120,20);" ath="-2.523" atv="-1.773" depth="1000.0" linkedscene="scene_chuatranquoc" linkedscene_hoffset="0.0" use3dtransition="true" tag="Chùa Trấn Quốc"/>
+		<hotspot name="scene_nhatholon" style="hs_circle" url="skin/hotspots/church.png" onloaded="do_crop_animation(120,120,20);" ath="72.527" atv="1.952" depth="1000.0" linkedscene="scene_nhatholon" linkedscene_hoffset="0.0" use3dtransition="true" tag="Nhà Thờ Lớn"/>
+		<hotspot name="scene_thuvienquocgia" style="hs_circle" url="skin/hotspots/building.png" onloaded="do_crop_animation(120,120,20);" ath="103.886" atv="2.07" depth="1000.0" linkedscene="scene_thuvienquocgia" linkedscene_hoffset="0.0" use3dtransition="true" tag="Thư Viện Quốc Gia"/>
+	</scene>
+</krpano>
