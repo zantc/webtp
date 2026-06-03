@@ -45,9 +45,11 @@
 <script setup lang="ts">
 import { Swiper, SwiperSlide } from 'swiper/vue'
 import { EffectCoverflow, Navigation, Autoplay } from 'swiper/modules'
-
+// @ts-ignore
 import 'swiper/css'
+// @ts-ignore
 import 'swiper/css/effect-coverflow'
+// @ts-ignore
 import 'swiper/css/navigation'
 
 defineProps<{

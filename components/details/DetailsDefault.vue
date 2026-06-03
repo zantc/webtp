@@ -120,8 +120,9 @@ import MapView from "@/components/Maps/MapView.vue";
 
 import { Swiper, SwiperSlide } from "swiper/vue";
 import { Navigation } from "swiper/modules";
-
+// @ts-ignore
 import "swiper/css";
+// @ts-ignore
 import "swiper/css/navigation";
 
 const props = defineProps<{
