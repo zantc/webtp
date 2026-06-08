@@ -1,20 +1,23 @@
 <template>
-  <div class="container">
-    <TheNavBar />
+  <div class="container" :class="{ 'admin-shell-active': isAdminPage }">
+    <TheNavBar v-if="!isAdminPage" />
     <!-- Main Content -->
     <main class="main-content">
       <NuxtPage />
     </main>
     <!-- Footer -->
-    <TheFooter />
+    <TheFooter v-if="!isAdminPage" />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
-import { useHead } from '#imports'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
+import { useHead, useRoute } from '#imports'
 import TheNavBar from '@/components/TheNavBar.vue'
 import TheFooter from '@/components/TheFooter.vue'
+
+const route = useRoute()
+const isAdminPage = computed(() => route.path.startsWith('/admin-dashboard'))
 
 const dropdowns = ref({
   diemden: false,
@@ -48,4 +51,12 @@ useHead({
 </script>
 
 <style scoped>
+.admin-shell-active {
+  background: #f4f6f2;
+  overflow: visible;
+}
+
+.admin-shell-active .main-content {
+  min-height: 100vh;
+}
 </style>

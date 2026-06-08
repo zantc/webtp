@@ -1,20 +1,48 @@
 <template>
   <div class="navbar-container">
+    <div v-if="isAdmin" class="admin-bar">
+      <div class="admin-bar-inner">
+        <NuxtLink href="/admin-dashboard">Trang quản trị</NuxtLink>
+        <NuxtLink href="/admin-dashboard">Thêm địa điểm</NuxtLink>
+        <NuxtLink href="/admin-dashboard">Quản lý bình luận</NuxtLink>
+      </div>
+    </div>
+
     <div class="topbar">
       <div class="topbar-inner">
         <div class="topbar-right">
         <form class="search-input">
-          <img src="/public/icons/icon-search.svg" alt="">
+          <img src="/icons/icon-search.svg" alt="">
           <input type="text" placeholder="Tìm kiếm" />
         </form>
-        <NuxtLink href="/login" class="login">Đăng nhập</NuxtLink>
+        <template v-if="isAuthenticated">
+          <NuxtLink href="/ho-so" class="saved-link" aria-label="Địa điểm đã lưu">♡</NuxtLink>
+          <div class="account-menu">
+            <button
+              type="button"
+              class="account-link"
+              :aria-expanded="accountMenuOpen"
+              @click.stop="accountMenuOpen = !accountMenuOpen"
+            >
+              <span class="account-avatar">{{ avatarInitial }}</span>
+              <span>Chào, {{ displayName }}</span>
+              <span class="account-caret">▾</span>
+            </button>
+            <div v-if="accountMenuOpen" class="account-dropdown">
+              <button type="button" @click="handleAccountNavigate('/ho-so')">Thông tin cá nhân</button>
+              <button type="button" @click="handleAccountNavigate('/ho-so?tab=security')">Đổi mật khẩu</button>
+              <button type="button" @click="handleLogout">Đăng xuất</button>
+            </div>
+          </div>
+        </template>
+        <NuxtLink v-else href="/login" class="login">Đăng nhập</NuxtLink>
         <div class="lang-group">
           <div class="flag-wrap">
             <NuxtLink href="#" class="lang lang-vn">
-              <img class="flag-icon" src="/public/icons/lang-vn.svg" alt="VN" />
+              <img class="flag-icon" src="/icons/lang-vn.svg" alt="VN" />
             </NuxtLink>
             <NuxtLink href="#" class="lang lang-en">
-              <img class="flag-icon" src="/public/icons/lang-en.svg" alt="EN" />
+              <img class="flag-icon" src="/icons/lang-en.svg" alt="EN" />
             </NuxtLink>
           </div>
         </div>
@@ -26,7 +54,7 @@
       <div class="logo-menu">
         <div class="logo">
           <NuxtLink href="/">
-            <img src="/public/images/Logo.png" alt="Logo" class="main-logo" />
+            <img src="/images/Logo.png" alt="Logo" class="main-logo" />
           </NuxtLink>
         </div>
 
@@ -131,6 +159,38 @@
             <li class="p-2 border-b" @click="handleMobileNavigate('/news/')" style="cursor:pointer"><NuxtLink href="/news/">Tin tức</NuxtLink></li>
             <li class="p-2 border-b" @click="handleMobileNavigate('/travel-tour/')" style="cursor:pointer"><NuxtLink href="/travel-tour/">Tour du lịch</NuxtLink></li>
             <li class="p-2 border-b" @click="handleMobileNavigate('/map/')" style="cursor:pointer"><NuxtLink href="/map/">Bản đồ</NuxtLink></li>
+            <li
+              v-if="isAuthenticated"
+              class="p-2 border-b"
+              @click="handleMobileNavigate('/ho-so')"
+              style="cursor:pointer"
+            >
+              <NuxtLink href="/ho-so">Thông tin cá nhân</NuxtLink>
+            </li>
+            <li
+              v-if="isAuthenticated"
+              class="p-2 border-b"
+              @click="handleMobileNavigate('/ho-so?tab=security')"
+              style="cursor:pointer"
+            >
+              <NuxtLink href="/ho-so?tab=security">Đổi mật khẩu</NuxtLink>
+            </li>
+            <li
+              v-if="isAdmin"
+              class="p-2 border-b"
+              @click="handleMobileNavigate('/admin-dashboard')"
+              style="cursor:pointer"
+            >
+              <NuxtLink href="/admin-dashboard">Trang quản trị</NuxtLink>
+            </li>
+            <li
+              v-if="isAuthenticated"
+              class="p-2 border-b"
+              @click="handleLogout"
+              style="cursor:pointer"
+            >
+              <button type="button">Đăng xuất</button>
+            </li>
             <li class="p-2 border-b">
               <button class="flex justify-between w-full" @click.stop="toggleMobile('trienlam')">
                 Triển lãm <span class="arrow-down">▼</span>
@@ -152,12 +212,53 @@
 
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { navigateTo } from '#app'
+
+const tokenCookie = useCookie('auth_token')
+const userCookie = useCookie('user_info')
+
+const currentUser = computed(() => {
+  const raw = userCookie.value
+
+  if (!raw) {
+    return null
+  }
+
+  if (typeof raw === 'string') {
+    try {
+      return JSON.parse(raw)
+    } catch {
+      return null
+    }
+  }
+
+  return raw
+})
+
+const isAuthenticated = computed(() => Boolean(tokenCookie.value && currentUser.value))
+const isAdmin = computed(() => currentUser.value?.vai_tro === 'admin')
+const displayName = computed(() => currentUser.value?.ho_ten || currentUser.value?.ten_dang_nhap || 'Người dùng')
+const avatarInitial = computed(() => displayName.value.charAt(0).toUpperCase())
+const accountMenuOpen = ref(false)
 
 function handleMobileNavigate(path) {
   navigateTo(path)
   isOpen.value = false
+  accountMenuOpen.value = false
+}
+
+function handleAccountNavigate(path) {
+  accountMenuOpen.value = false
+  navigateTo(path)
+}
+
+function handleLogout() {
+  tokenCookie.value = null
+  userCookie.value = null
+  isOpen.value = false
+  accountMenuOpen.value = false
+  navigateTo('/login')
 }
 
 
@@ -190,8 +291,12 @@ function toggleMobile(key) {
 // Close desktop dropdown when clicking outside
 function handleClickOutside(e) {
   const nav = document.querySelector('.main-nav')
+  const accountMenu = document.querySelector('.account-menu')
   if (nav && !nav.contains(e.target)) {
     Object.keys(dropdowns.value).forEach(k => dropdowns.value[k] = false)
+  }
+  if (accountMenu && !accountMenu.contains(e.target)) {
+    accountMenuOpen.value = false
   }
 }
 
@@ -205,6 +310,149 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
     font-size: 10px;
     vertical-align:middle;
   }
+
+.admin-bar {
+  background: #0f1414;
+  color: #fff;
+  font-size: 14px;
+}
+
+.admin-bar-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  min-height: 34px;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  padding: 0 16px;
+}
+
+.admin-bar a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+.admin-bar a:hover {
+  color: #f5c46b;
+}
+
+.account-link,
+.saved-link,
+.logout-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 34px;
+  border: 0;
+  border-radius: 6px;
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.account-menu {
+  position: relative;
+}
+
+.account-link {
+  gap: 8px;
+  padding: 0 10px;
+  background: rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  font: inherit;
+}
+
+.saved-link {
+  width: 34px;
+  font-size: 20px;
+  background: rgba(255, 255, 255, 0.14);
+}
+
+.account-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #f5c46b;
+  color: #1f2937;
+  font-size: 13px;
+  font-weight: 800;
+}
+
+.account-caret {
+  font-size: 11px;
+}
+
+.account-dropdown {
+  position: absolute;
+  top: calc(100% + 9px);
+  right: 0;
+  z-index: 1200;
+  width: 190px;
+  border: 1px solid #d8dee4;
+  background: #fff;
+  box-shadow: 0 8px 22px rgba(15, 23, 42, 0.16);
+}
+
+.account-dropdown::before {
+  content: '';
+  position: absolute;
+  top: -7px;
+  right: 18px;
+  width: 12px;
+  height: 12px;
+  border-left: 1px solid #d8dee4;
+  border-top: 1px solid #d8dee4;
+  background: #fff;
+  transform: rotate(45deg);
+}
+
+.account-dropdown button {
+  position: relative;
+  width: 100%;
+  min-height: 42px;
+  border: 0;
+  border-bottom: 1px solid #edf0f2;
+  background: #fff;
+  color: #1f2937;
+  cursor: pointer;
+  font: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  padding: 10px 16px;
+  text-align: left;
+}
+
+.account-dropdown button:first-child {
+  color: #0f4f8a;
+  font-weight: 800;
+}
+
+.account-dropdown button:last-child {
+  border-bottom: 0;
+}
+
+.account-dropdown button:hover {
+  background: #f0f7ff;
+  color: #0f4f8a;
+}
+
+.logout-link {
+  padding: 0 10px;
+  background: rgba(255, 255, 255, 0.12);
+  cursor: pointer;
+  font: inherit;
+}
+
+.logout-link:hover,
+.saved-link:hover,
+.account-link:hover {
+  background: rgba(255, 255, 255, 0.22);
+}
+
 .header a {
   color: #074946;
     font-weight: 400;
@@ -307,6 +555,13 @@ onBeforeUnmount(() => document.removeEventListener('click', handleClickOutside))
     display: flex;
     align-items: center;
     gap: 8px;
+  }
+  .account-link span:nth-child(2),
+  .logout-link {
+    display: none;
+  }
+  .saved-link {
+    min-width: 34px;
   }
   .lang-group {
     margin-left: auto;
