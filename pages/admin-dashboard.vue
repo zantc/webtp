@@ -229,7 +229,7 @@ type UserInfo = {
   vai_tro?: string;
 }
 
-type AdminSection = 'overview' | 'vr' | 'places' | 'hotels' | 'comments' | 'users' | 'settings' | 'tasks';
+type AdminSection = 'overview' | 'content' | 'vr' | 'places' | 'hotels' | 'comments' | 'users' | 'settings' | 'tasks';
 type ModalMode = 'place' | 'hotel' | 'menu' | 'task' | null;
 
 type TaskItem = {
@@ -242,7 +242,7 @@ type SectionRow = {
   title: string;
   meta: string;
   description: string;
-  action: 'place' | 'hotel' | 'menu' | 'task' | 'notify';
+  action: 'content' | 'place' | 'hotel' | 'menu' | 'task' | 'notify';
   actionLabel: string;
 }
 
@@ -291,6 +291,7 @@ useHead({
 });
 
 const menuItems: { key: AdminSection; label: string; eyebrow: string }[] = [
+  { key: 'content', label: 'Nội dung tĩnh', eyebrow: 'Chỉnh sửa dữ liệu' },
   { key: 'overview', label: 'Tổng quan hệ thống', eyebrow: 'Trang quản trị' },
   { key: 'vr', label: 'Không gian VR', eyebrow: 'Quản lý lõi' },
   { key: 'places', label: 'Điểm đến', eyebrow: 'Nội dung du lịch' },
@@ -327,6 +328,11 @@ const tasks = ref<TaskItem[]>([
 
 const modules: { title: string; description: string; target: AdminSection }[] = [
   {
+    title: 'Biên tập nội dung tĩnh',
+    description: 'Sửa dữ liệu địa điểm, khách sạn, nhà hàng và dịch vụ trong app.',
+    target: 'content',
+  },
+  {
     title: 'Quản lý không gian VR',
     description: 'Thư viện panorama, tour builder và hotspot.',
     target: 'vr',
@@ -349,6 +355,22 @@ const modules: { title: string; description: string; target: AdminSection }[] = 
 ];
 
 const sectionRows: Record<Exclude<AdminSection, 'overview' | 'tasks'>, SectionRow[]> = {
+  content: [
+    {
+      title: 'Trình chỉnh sửa nội dung',
+      meta: 'allMockData.json',
+      description: 'Cập nhật tên, ảnh, địa chỉ, tọa độ, nội dung bài viết và link 360.',
+      action: 'content',
+      actionLabel: 'Mở trình chỉnh sửa',
+    },
+    {
+      title: 'Đồng bộ database',
+      meta: 'Bảng dia_diem',
+      description: 'Khi lưu nội dung, hệ thống cập nhật file tĩnh và đồng bộ bản ghi tương ứng.',
+      action: 'content',
+      actionLabel: 'Sửa nội dung',
+    },
+  ],
   vr: [
     {
       title: 'Thư viện panorama',
@@ -556,6 +578,11 @@ const submitModal = () => {
 };
 
 const handleSectionAction = (action: SectionRow['action']) => {
+  if (action === 'content') {
+    navigateTo('/admin-content');
+    return;
+  }
+
   if (action === 'place' || action === 'hotel' || action === 'menu') {
     openModal(action);
     return;
