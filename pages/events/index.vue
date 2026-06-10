@@ -114,13 +114,6 @@ const events = [
     name: "Hướng tới kỷ niệm 78 năm Ngày Thương binh – Liệt sĩ (27/7/1947 – 27/7/2025)",
     date: "21/07/2025",
     image: "https://sqhx-hanoi.mediacdn.vn/thumb_w/740/91579363132710912/2025/7/21/1-1753088285783198392915.jpg"
-  },
-  {
-    key: 9,
-    slug: "chuong-trinh-nghe-thuat-dac-biet-vu-dieu-ket-doan",
-    name: "CHƯƠNG TRÌNH NGHỆ THUẬT ĐẶC BIỆT \"VŨ ĐIỆU KẾT ĐOÀN\"",
-    date: "19/11/2023",
-    image: "https://images.baophunuthudo.vn/zoom/1000/uploaded/anhnq/2025_02_11/ruoc_xoi_1_qlgj.jpg"
   }
 ];
 

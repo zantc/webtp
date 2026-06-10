@@ -1,14 +1,14 @@
 <template>
-  <div v-if="isAllowed" class="content-admin">
+  <div v-if="isAllowed" class="content-admin" :class="{ embedded: isEmbedded }">
     <aside class="content-sidebar">
-      <NuxtLink href="/admin-dashboard" class="back-link">Quay lại quản trị</NuxtLink>
+      <NuxtLink href="/admin-dashboard" class="back-link"></NuxtLink>
       <div class="sidebar-heading">
-        <p>Nội dung tĩnh</p>
+        <p></p>
         <h1>Danh sách hiển thị</h1>
       </div>
 
       <div ref="categoryPickerRef" class="sidebar-category" @keydown.escape="activeSidebarMenu = null">
-        <span class="sidebar-category-label">Nhóm nội dung</span>
+        <span class="sidebar-category-label"></span>
 
         <div class="sidebar-nav-stack">
           <div v-for="group in sidebarNavGroups" :key="group.key" class="sidebar-nav-group">
@@ -89,15 +89,136 @@
               </select>
             </label>
 
-            <label>
-              Slug
-              <input v-model="form.slug" type="text" required />
-            </label>
-
             <label class="wide-field">
               <span class="field-label">Tên hiển thị <span class="required-mark">*</span></span>
               <input v-model="form.name" type="text" required @blur="fillSlugFromName" />
             </label>
+
+            <div class="wide-field form-field">
+              <label for="image-url">Ảnh đại diện</label>
+              <div class="image-upload-control">
+                <input id="image-url" v-model="form.imageUrl" type="text" />
+                <label
+                  class="upload-button icon-only-button"
+                  :class="{ disabled: saving || isUploadingImage }"
+                  :aria-label="uploadButtonLabel('imageUrl')"
+                  :title="uploadButtonLabel('imageUrl')"
+                >
+                  <img src="/icons/iconthemanh.jpg" alt="" aria-hidden="true" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    :disabled="saving || isUploadingImage"
+                    @change="uploadImage($event, 'imageUrl')"
+                  />
+                </label>
+              </div>
+              <img
+                v-if="form.imageUrl"
+                class="image-field-preview"
+                :src="form.imageUrl"
+                alt="Ảnh đại diện hiện tại"
+                loading="lazy"
+              />
+            </div>
+
+            <div class="wide-field form-field">
+              <label for="image-banner">Ảnh banner</label>
+              <div class="image-upload-control">
+                <input id="image-banner" v-model="form.imageBanner" type="text" />
+                <label
+                  class="upload-button icon-only-button"
+                  :class="{ disabled: saving || isUploadingImage }"
+                  :aria-label="uploadButtonLabel('imageBanner')"
+                  :title="uploadButtonLabel('imageBanner')"
+                >
+                  <img src="/icons/iconthemanh.jpg" alt="" aria-hidden="true" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    :disabled="saving || isUploadingImage"
+                    @change="uploadImage($event, 'imageBanner')"
+                  />
+                </label>
+              </div>
+              <img
+                v-if="form.imageBanner"
+                class="image-field-preview"
+                :src="form.imageBanner"
+                alt="Ảnh banner hiện tại"
+                loading="lazy"
+              />
+            </div>
+
+            <div class="wide-field form-field">
+              <label for="icon-url">Icon bản đồ</label>
+              <div class="image-upload-control">
+                <input id="icon-url" v-model="form.iconUrl" type="text" />
+                <label
+                  class="upload-button icon-only-button"
+                  :class="{ disabled: saving || isUploadingImage }"
+                  :aria-label="uploadButtonLabel('iconUrl')"
+                  :title="uploadButtonLabel('iconUrl')"
+                >
+                  <img src="/icons/iconthemanh.jpg" alt="" aria-hidden="true" />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    :disabled="saving || isUploadingImage"
+                    @change="uploadImage($event, 'iconUrl')"
+                  />
+                </label>
+              </div>
+              <img
+                v-if="form.iconUrl"
+                class="image-field-preview icon-preview"
+                :src="form.iconUrl"
+                alt="Icon bản đồ hiện tại"
+                loading="lazy"
+              />
+            </div>
+
+            <div class="wide-field editor-section-heading">
+              <span>TIỆN NGHI DỊCH VỤ</span>
+              <small>Nếu có</small>
+            </div>
+
+            <label class="wide-field">
+              Tiện nghi dịch vụ
+              <textarea v-model="form.amenitiesText" rows="3" />
+            </label>
+
+            <div class="wide-field editor-section-heading">
+              <span>GIỚI THIỆU</span>
+            </div>
+
+            <div class="wide-field form-field content-editor-field">
+              <div class="content-editor-head">
+                <label for="content-editor">Nội dung</label>
+                <div class="content-editor-tools">
+                  <button
+                    type="button"
+                    class="content-expand-button icon-only-button"
+                    aria-label="Phóng to"
+                    title="Phóng to"
+                    @click="contentEditorExpanded = true"
+                  >
+                    <img src="/icons/iconphongto.png" alt="" aria-hidden="true" />
+                  </button>
+                </div>
+              </div>
+              <textarea
+                id="content-editor"
+                v-model="form.content"
+                class="content-textarea"
+                rows="10"
+                :style="contentEditorStyle"
+              />
+            </div>
+
+            <div class="wide-field editor-section-heading">
+              <span>THÔNG TIN LIÊN HỆ</span>
+            </div>
 
             <label class="wide-field">
               <span class="field-label">Địa chỉ <span class="required-mark">*</span></span>
@@ -119,101 +240,44 @@
               <input v-model="form.website" type="url" />
             </label>
 
-            <label>
-              Lat
-              <input v-model="form.lat" type="number" step="any" />
-            </label>
-
-            <label>
-              Lng
-              <input v-model="form.lng" type="number" step="any" />
-            </label>
-
             <div class="wide-field form-field">
-              <label for="image-url">Ảnh đại diện</label>
-              <div class="image-upload-control">
-                <input id="image-url" v-model="form.imageUrl" type="text" />
-                <label class="upload-button" :class="{ disabled: saving || isUploadingImage }">
-                  {{ uploadButtonLabel('imageUrl') }}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    :disabled="saving || isUploadingImage"
-                    @change="uploadImage($event, 'imageUrl')"
-                  />
-                </label>
+              <label for="google-map">Google Maps</label>
+              <div class="map-link-control">
+                <input id="google-map" v-model="form.map" type="text" />
+                <button
+                  type="button"
+                  class="map-open-button"
+                  aria-label="Mở Google Maps"
+                  title="Mở Google Maps"
+                  :disabled="!googleMapsTargetUrl"
+                  @click="openGoogleMaps"
+                >
+                  <img class="map-open-icon" src="/icons/iconggmap.png" alt="" aria-hidden="true" />
+                </button>
               </div>
             </div>
-
-            <div class="wide-field form-field">
-              <label for="image-banner">Ảnh banner</label>
-              <div class="image-upload-control">
-                <input id="image-banner" v-model="form.imageBanner" type="text" />
-                <label class="upload-button" :class="{ disabled: saving || isUploadingImage }">
-                  {{ uploadButtonLabel('imageBanner') }}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    :disabled="saving || isUploadingImage"
-                    @change="uploadImage($event, 'imageBanner')"
-                  />
-                </label>
-              </div>
-            </div>
-
-            <div class="wide-field form-field">
-              <label for="icon-url">Icon bản đồ</label>
-              <div class="image-upload-control">
-                <input id="icon-url" v-model="form.iconUrl" type="text" />
-                <label class="upload-button" :class="{ disabled: saving || isUploadingImage }">
-                  {{ uploadButtonLabel('iconUrl') }}
-                  <input
-                    type="file"
-                    accept="image/*"
-                    :disabled="saving || isUploadingImage"
-                    @change="uploadImage($event, 'iconUrl')"
-                  />
-                </label>
-              </div>
-            </div>
-
-            <label class="wide-field">
-              Link 360
-              <input v-model="form.path360" type="text" />
-            </label>
-
-            <label class="wide-field">
-              Google Maps
-              <input v-model="form.map" type="text" />
-            </label>
-
-            <label>
-              Type ID
-              <input v-model="form.type" type="number" min="1" max="99" />
-            </label>
-
-            <label>
-              Key
-              <input v-model="form.key" type="number" min="1" />
-            </label>
-
-            <label class="wide-field">
-              Tiện nghi
-              <textarea v-model="form.amenitiesText" rows="3" />
-            </label>
-
-            <label class="wide-field">
-              Nội dung
-              <textarea v-model="form.content" rows="10" />
-            </label>
           </div>
 
           <div class="editor-actions">
-            <button type="button" class="danger-button" :disabled="!selectedIdentity || saving" @click="deleteItem">
-              Xóa
+            <button
+              type="button"
+              class="danger-button icon-only-button"
+              :disabled="!selectedIdentity || saving"
+              aria-label="Xóa"
+              title="Xóa"
+              @click="deleteItem"
+            >
+              <img src="/icons/iconxoa-clean.png" alt="" aria-hidden="true" />
             </button>
-            <button type="button" class="ghost-button" :disabled="saving" @click="resetCurrentForm">
-              Hoàn tác
+            <button
+              type="button"
+              class="ghost-button icon-only-button"
+              :disabled="saving"
+              aria-label="Hoàn tác"
+              title="Hoàn tác"
+              @click="resetCurrentForm"
+            >
+              <img src="/icons/iconhoantac.jpg" alt="" aria-hidden="true" />
             </button>
             <button type="submit" :disabled="saving">
               {{ saving ? 'Đang lưu' : 'Lưu nội dung' }}
@@ -282,6 +346,36 @@
       </section>
     </main>
   </div>
+
+  <Teleport to="body">
+    <div
+      v-if="isAllowed && contentEditorExpanded"
+      class="content-editor-modal"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="content-modal-title"
+      @click.self="contentEditorExpanded = false"
+    >
+      <div class="content-editor-modal-card">
+        <div class="content-editor-modal-head">
+          <h2 id="content-modal-title">Nội dung</h2>
+          <div class="content-editor-tools">
+            <button
+              type="button"
+              class="content-expand-button icon-only-button"
+              aria-label="Thu nhỏ"
+              title="Thu nhỏ"
+              @click="contentEditorExpanded = false"
+            >
+              <img src="/icons/iconthunho.png" alt="" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+
+        <textarea v-model="form.content" class="content-modal-textarea" :style="contentEditorStyle" />
+      </div>
+    </div>
+  </Teleport>
 </template>
 
 <script setup lang="ts">
@@ -352,6 +446,7 @@ type ImageField = 'imageUrl' | 'imageBanner' | 'iconUrl';
 
 const tokenCookie = useCookie<string | null>('auth_token');
 const userCookie = useCookie<UserInfo | string | null>('user_info');
+const route = useRoute();
 const maxUploadImageSize = 8 * 1024 * 1024;
 const allowedUploadMimeTypes = new Set([
   'image/jpeg',
@@ -381,6 +476,7 @@ const parseUserInfo = (value: UserInfo | string | null | undefined): UserInfo | 
 
 const currentUser = computed(() => parseUserInfo(userCookie.value));
 const isAllowed = computed(() => Boolean(tokenCookie.value && currentUser.value?.vai_tro === 'admin'));
+const isEmbedded = computed(() => route.query.embedded === '1');
 
 if (!tokenCookie.value) {
   await navigateTo('/login');
@@ -405,6 +501,7 @@ const statusIsWarning = ref(false);
 const activeSidebarMenu = ref<string | null>(null);
 const categoryPickerRef = ref<HTMLElement | null>(null);
 const uploadingImageField = ref<ImageField | null>(null);
+const contentEditorExpanded = ref(false);
 
 const form = reactive({
   key: '',
@@ -426,6 +523,34 @@ const form = reactive({
   amenitiesText: '',
   content: '',
 });
+
+const googleMapsTargetUrl = computed(() => {
+  const mapUrl = form.map.trim();
+
+  if (mapUrl) {
+    return /^https?:\/\//i.test(mapUrl)
+      ? mapUrl
+      : `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(mapUrl)}`;
+  }
+
+  const lat = form.lat.trim();
+  const lng = form.lng.trim();
+
+  if (lat && lng) {
+    return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(`${lat},${lng}`)}`;
+  }
+
+  const fallbackQuery = form.address.trim() || form.name.trim();
+
+  return fallbackQuery
+    ? `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fallbackQuery)}`
+    : '';
+});
+
+const contentEditorStyle = computed(() => ({
+  fontFamily: '"Times New Roman", serif',
+  textAlign: 'justify' as const,
+}));
 
 const currentCategoryLabel = computed(() => {
   return categories.value.find((category) => category.slug === selectedCategory.value)?.label || selectedCategory.value;
@@ -702,6 +827,16 @@ function uploadButtonLabel(field: ImageField) {
   return uploadingImageField.value === field ? 'Đang tải' : 'Thêm ảnh';
 }
 
+function openGoogleMaps() {
+  if (!googleMapsTargetUrl.value) {
+    statusIsWarning.value = true;
+    statusMessage.value = 'Chưa có dữ liệu vị trí để mở Google Maps.';
+    return;
+  }
+
+  window.open(googleMapsTargetUrl.value, '_blank', 'noopener,noreferrer');
+}
+
 function validateImageFile(file: File) {
   const extension = file.name.includes('.') ? `.${file.name.split('.').pop()?.toLowerCase()}` : '';
 
@@ -926,7 +1061,7 @@ onBeforeUnmount(() => {
 }
 
 .content-sidebar {
-  background: #0f1716;
+  background: #16443f;
   color: #fff;
   padding: 22px 18px;
   overflow: auto;
@@ -1434,6 +1569,30 @@ onBeforeUnmount(() => {
   display: block;
 }
 
+.editor-section-heading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-top: 1px solid #dce7e2;
+  color: #0f766e;
+  font-weight: 900;
+  margin-top: 4px;
+  padding-top: 14px;
+}
+
+.editor-section-heading span {
+  font-size: 15px;
+}
+
+.editor-section-heading small {
+  border-radius: 999px;
+  background: #e8f4f1;
+  color: #36554e;
+  font-size: 12px;
+  font-weight: 900;
+  padding: 4px 8px;
+}
+
 .field-label {
   display: inline-flex;
   align-items: baseline;
@@ -1445,18 +1604,21 @@ onBeforeUnmount(() => {
   font-weight: 900;
 }
 
-.image-upload-control {
+.image-upload-control,
+.map-link-control {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 8px;
   align-items: stretch;
 }
 
-.upload-button {
+.upload-button,
+.map-open-button {
   min-width: 112px;
   display: inline-flex !important;
   align-items: center;
   justify-content: center;
+  gap: 7px;
   border: 1px solid #0f766e;
   border-radius: 6px;
   background: #0f766e;
@@ -1469,11 +1631,13 @@ onBeforeUnmount(() => {
   white-space: nowrap;
 }
 
-.upload-button:hover {
+.upload-button:hover,
+.map-open-button:hover:not(:disabled) {
   background: #115e59;
 }
 
-.upload-button.disabled {
+.upload-button.disabled,
+.map-open-button:disabled {
   cursor: not-allowed;
   opacity: 0.55;
   pointer-events: none;
@@ -1483,12 +1647,182 @@ onBeforeUnmount(() => {
   display: none;
 }
 
+.image-field-preview {
+  width: 100%;
+  max-height: 220px;
+  box-sizing: border-box;
+  border: 1px solid #cad7d2;
+  background: #f8fbfa;
+  object-fit: contain;
+  padding: 8px;
+}
+
+.image-field-preview.icon-preview {
+  width: 96px;
+  height: 96px;
+}
+
+.map-open-icon {
+  width: 24px;
+  height: 24px;
+  display: block;
+  object-fit: contain;
+}
+
+.map-open-button {
+  width: 46px;
+  height: 46px;
+  min-width: 46px;
+  min-height: 46px;
+  display: inline-grid !important;
+  place-items: center;
+  aspect-ratio: 1 / 1;
+  border-radius: 0;
+  padding: 0;
+}
+
 .wide-field {
   grid-column: 1 / -1;
 }
 
 .editor-panel textarea {
   resize: vertical;
+}
+
+.content-editor-field {
+  gap: 10px;
+}
+
+.content-editor-head,
+.content-editor-modal-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+}
+
+.content-editor-tools {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.content-expand-button {
+  min-height: 36px;
+  border: 1px solid #cad7d2;
+  background: #fff;
+  color: #1f3c37;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  padding: 7px 11px;
+}
+
+.content-expand-button:hover {
+  background: #e8f4f1;
+  color: #0f766e;
+}
+
+.icon-only-button {
+  width: 46px;
+  height: 46px;
+  min-width: 46px !important;
+  min-height: 46px !important;
+  display: inline-grid !important;
+  place-items: center;
+  aspect-ratio: 1 / 1;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+.icon-only-button img {
+  width: 26px;
+  height: 26px;
+  display: block;
+  margin: auto;
+  object-fit: contain;
+}
+
+.editor-actions .icon-only-button {
+  background: #eef4f1;
+}
+
+.editor-actions .icon-only-button:hover:not(:disabled) {
+  background: #e0ece7;
+}
+
+.editor-actions .danger-button.icon-only-button {
+  background: #b42318;
+}
+
+.editor-actions .danger-button.icon-only-button:hover:not(:disabled) {
+  background: #981b12;
+}
+
+.editor-actions .danger-button.icon-only-button img {
+  filter: brightness(0) invert(1);
+  width: 30px;
+  height: 30px;
+}
+
+.upload-button.icon-only-button {
+  border: 1px solid #cad7d2;
+  background: #fff;
+}
+
+.upload-button.icon-only-button:hover {
+  border-color: #0f766e;
+  background: #e8f4f1;
+}
+
+.content-textarea {
+  min-height: 240px;
+  line-height: 1.65;
+}
+
+.content-editor-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: grid;
+  place-items: center;
+  background: rgba(10, 23, 20, 0.58);
+  padding: 22px;
+}
+
+.content-editor-modal-card {
+  width: min(1120px, 100%);
+  height: min(760px, calc(100vh - 44px));
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  gap: 14px;
+  border: 1px solid #cad7d2;
+  border-radius: 8px;
+  background: #f8fbfa;
+  box-shadow: 0 24px 70px rgba(8, 21, 18, 0.3);
+  padding: 18px;
+}
+
+.content-editor-modal-head h2 {
+  margin: 0;
+  color: #082f2a;
+  font-size: 22px;
+}
+
+.content-modal-textarea {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid #cad7d2;
+  border-radius: 6px;
+  background: #fff;
+  color: #111827;
+  font: inherit;
+  line-height: 1.65;
+  min-height: 0;
+  padding: 14px;
+  resize: none;
 }
 
 .editor-actions {
@@ -1534,12 +1868,23 @@ onBeforeUnmount(() => {
     grid-template-columns: 1fr;
   }
 
-  .image-upload-control {
+  .image-upload-control,
+  .map-link-control {
     grid-template-columns: 1fr;
   }
 
-  .upload-button {
+  .upload-button,
+  .map-open-button {
     min-height: 40px;
+  }
+
+  .content-editor-head,
+  .content-editor-modal-head {
+    grid-template-columns: 1fr;
+  }
+
+  .content-editor-tools {
+    justify-content: flex-start;
   }
 
   .preview-head,

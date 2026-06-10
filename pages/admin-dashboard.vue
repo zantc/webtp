@@ -1,30 +1,17 @@
 <template>
   <div v-if="isAllowed" class="admin-dashboard">
-    <aside class="admin-sidebar">
-      <NuxtLink href="/" class="admin-brand">
-        <img src="/images/Logo.png" alt="Đại Mỗ 360" />
-        <span>Đại Mỗ 360</span>
-      </NuxtLink>
+    <header class="admin-topbar">
+      <div class="admin-brand" aria-hidden="true"></div>
 
-      <nav class="admin-menu" aria-label="Admin">
-        <button
-          v-for="item in menuItems"
-          :key="item.key"
-          type="button"
-          :class="{ active: activeSection === item.key }"
-          @click="selectSection(item.key)"
-        >
-          {{ item.label }}
+      <h1>BẢNG ĐIỀU KHIỂN</h1>
+
+      <div class="admin-top-actions">
+        <button type="button" aria-label="Cài đặt">
+          <span aria-hidden="true">⚙</span>
         </button>
-      </nav>
-    </aside>
-
-    <section class="admin-main">
-      <header class="admin-header">
-        <div>
-          <p class="admin-eyebrow">{{ activeMenu.eyebrow }}</p>
-          <h1>{{ activeMenu.label }}</h1>
-        </div>
+        <button type="button" aria-label="Ứng dụng">
+          <span aria-hidden="true">▦</span>
+        </button>
         <div class="admin-account">
           <button
             type="button"
@@ -45,46 +32,125 @@
             <button type="button" @click="handleAdminLogout">Đăng xuất</button>
           </div>
         </div>
-      </header>
-
-      <div v-if="statusMessage" class="status-message">
-        {{ statusMessage }}
-        <button type="button" @click="statusMessage = ''">Đóng</button>
       </div>
+    </header>
 
-      <div class="quick-actions">
-        <button
-          v-for="action in quickActions"
-          :key="action.mode"
-          type="button"
-          :class="action.className"
-          @click="openModal(action.mode)"
-        >
-          {{ action.label }}
-        </button>
-      </div>
-
-      <template v-if="activeSection === 'overview'">
-        <section class="metric-grid" aria-label="Thống kê">
+    <div class="admin-shell">
+      <aside class="admin-sidebar">
+        <nav class="admin-menu" aria-label="Admin">
           <button
-            v-for="metric in metrics"
-            :key="metric.label"
+            v-for="item in menuItems"
+            :key="item.key"
             type="button"
-            class="metric-card"
-            @click="selectSection(metric.target)"
+            :class="{ active: activeSection === item.key }"
+            @click="selectSection(item.key)"
           >
-            <span>{{ metric.label }}</span>
-            <strong>{{ metric.value }}</strong>
-            <small>{{ metric.note }}</small>
+            <span>{{ item.label }}</span>
+            <span class="menu-caret" aria-hidden="true">▾</span>
           </button>
-        </section>
+        </nav>
+      </aside>
 
-        <section class="admin-panels">
-          <article class="admin-panel">
+      <section class="admin-main">
+        <nav class="admin-tabs" aria-label="Điều hướng nhanh">
+          <button
+            v-for="tab in topTabs"
+            :key="tab.label"
+            type="button"
+            :class="{ active: activeSection === tab.section }"
+            @click="selectSection(tab.section)"
+          >
+            {{ tab.label }}
+          </button>
+          <NuxtLink href="/" class="visit-site">Xem website</NuxtLink>
+        </nav>
+
+        <div class="admin-content">
+          <div class="content-heading">
+            <p class="admin-eyebrow">{{ activeMenu.eyebrow }}</p>
+            <h2>{{ activeMenu.label }}</h2>
+          </div>
+
+          <div v-if="statusMessage" class="status-message">
+            {{ statusMessage }}
+            <button type="button" @click="statusMessage = ''">Đóng</button>
+          </div>
+
+          <template v-if="activeSection === 'overview'">
+            <section class="metric-grid" aria-label="Thống kê">
+              <button
+                v-for="(metric, index) in metrics"
+                :key="metric.label"
+                type="button"
+                class="metric-card"
+                @click="selectSection(metric.target)"
+              >
+                <span class="metric-visual" :class="`visual-${index + 1}`" aria-hidden="true"></span>
+                <span class="metric-copy">
+                  <span>{{ metric.label }}</span>
+                  <strong>{{ metric.value }}</strong>
+                  <small>{{ metric.note }}</small>
+                </span>
+              </button>
+            </section>
+
+            <section class="admin-panels">
+              <article class="admin-panel">
+                <div class="panel-header">
+                  <h2>Việc cần xử lý</h2>
+                  <button type="button" class="text-button" @click="selectSection('tasks')">
+                    Xem tất cả
+                  </button>
+                </div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Hạng mục</th>
+                      <th>Trạng thái</th>
+                      <th>Ưu tiên</th>
+                      <th>Thao tác</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr v-for="task in tasks" :key="task.name">
+                      <td>{{ task.name }}</td>
+                      <td>{{ task.status }}</td>
+                      <td>{{ task.priority }}</td>
+                      <td>
+                        <button type="button" class="row-action" @click="openTask(task)">
+                          Xử lý
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </article>
+
+              <article class="admin-panel">
+                <div class="panel-header">
+                  <h2>Phân hệ quản lý</h2>
+                </div>
+                <div class="module-list">
+                  <button
+                    v-for="module in modules"
+                    :key="module.title"
+                    type="button"
+                    class="module-row"
+                    @click="selectSection(module.target)"
+                  >
+                    <strong>{{ module.title }}</strong>
+                    <span>{{ module.description }}</span>
+                  </button>
+                </div>
+              </article>
+            </section>
+          </template>
+
+          <section v-else-if="activeSection === 'tasks'" class="admin-panel">
             <div class="panel-header">
-              <h2>Việc cần xử lý</h2>
-              <button type="button" class="text-button" @click="selectSection('tasks')">
-                Xem tất cả
+              <h2>Danh sách công việc</h2>
+              <button type="button" class="text-button" @click="selectSection('overview')">
+                Về tổng quan
               </button>
             </div>
             <table>
@@ -103,80 +169,39 @@
                   <td>{{ task.priority }}</td>
                   <td>
                     <button type="button" class="row-action" @click="openTask(task)">
-                      Xử lý
+                      Cập nhật
                     </button>
                   </td>
                 </tr>
               </tbody>
             </table>
-          </article>
+          </section>
 
-          <article class="admin-panel">
-            <div class="panel-header">
-              <h2>Phân hệ quản lý</h2>
-            </div>
-            <div class="module-list">
-              <button
-                v-for="module in modules"
-                :key="module.title"
-                type="button"
-                class="module-row"
-                @click="selectSection(module.target)"
-              >
-                <strong>{{ module.title }}</strong>
-                <span>{{ module.description }}</span>
+          <section v-else-if="activeSection === 'content'" class="content-manager-frame">
+            <iframe
+              title="Quản lý nội dung tĩnh"
+              src="/admin-content?embedded=1"
+              loading="lazy"
+            ></iframe>
+          </section>
+
+          <section v-else class="section-grid">
+            <article
+              v-for="row in activeRows"
+              :key="row.title"
+              class="section-card"
+            >
+              <span>{{ row.meta }}</span>
+              <h2>{{ row.title }}</h2>
+              <p>{{ row.description }}</p>
+              <button type="button" @click="handleSectionAction(row.action)">
+                {{ row.actionLabel }}
               </button>
-            </div>
-          </article>
-        </section>
-      </template>
-
-      <section v-else-if="activeSection === 'tasks'" class="admin-panel">
-        <div class="panel-header">
-          <h2>Danh sách công việc</h2>
-          <button type="button" class="text-button" @click="selectSection('overview')">
-            Về tổng quan
-          </button>
+            </article>
+          </section>
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th>Hạng mục</th>
-              <th>Trạng thái</th>
-              <th>Ưu tiên</th>
-              <th>Thao tác</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="task in tasks" :key="task.name">
-              <td>{{ task.name }}</td>
-              <td>{{ task.status }}</td>
-              <td>{{ task.priority }}</td>
-              <td>
-                <button type="button" class="row-action" @click="openTask(task)">
-                  Cập nhật
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
       </section>
-
-      <section v-else class="section-grid">
-        <article
-          v-for="row in activeRows"
-          :key="row.title"
-          class="section-card"
-        >
-          <span>{{ row.meta }}</span>
-          <h2>{{ row.title }}</h2>
-          <p>{{ row.description }}</p>
-          <button type="button" @click="handleSectionAction(row.action)">
-            {{ row.actionLabel }}
-          </button>
-        </article>
-      </section>
-    </section>
+    </div>
 
     <div v-if="activeModal" class="modal-backdrop" @click.self="closeModal">
       <form class="modal-card" @submit.prevent="submitModal">
@@ -291,8 +316,8 @@ useHead({
 });
 
 const menuItems: { key: AdminSection; label: string; eyebrow: string }[] = [
-  { key: 'content', label: 'Nội dung tĩnh', eyebrow: 'Chỉnh sửa dữ liệu' },
   { key: 'overview', label: 'Tổng quan hệ thống', eyebrow: 'Trang quản trị' },
+  { key: 'content', label: 'Nội dung tĩnh', eyebrow: 'Chỉnh sửa dữ liệu' },
   { key: 'vr', label: 'Không gian VR', eyebrow: 'Quản lý lõi' },
   { key: 'places', label: 'Điểm đến', eyebrow: 'Nội dung du lịch' },
   { key: 'hotels', label: 'Khách sạn', eyebrow: 'Dịch vụ lưu trú' },
@@ -301,16 +326,18 @@ const menuItems: { key: AdminSection; label: string; eyebrow: string }[] = [
   { key: 'settings', label: 'Cấu hình menu', eyebrow: 'Cài đặt' },
 ];
 
+const topTabs: { label: string; section: AdminSection }[] = [
+  { label: 'Trang chủ', section: 'overview' },
+  { label: 'Quản lý', section: 'content' },
+  { label: 'Giao diện', section: 'settings' },
+  { label: 'Hệ thống', section: 'tasks' },
+  { label: 'Thông tin cá nhân', section: 'users' },
+];
+
 const activeMenu = computed(() => {
   return menuItems.find((item) => item.key === activeSection.value)
     || { label: 'Danh sách công việc', eyebrow: 'Theo dõi xử lý' };
 });
-
-const quickActions = [
-  { mode: 'place' as const, label: 'Thêm địa điểm', className: 'primary-action' },
-  { mode: 'hotel' as const, label: 'Thêm khách sạn', className: 'hotel-action' },
-  { mode: 'menu' as const, label: 'Tạo menu mới', className: 'menu-action' },
-];
 
 const metrics: { label: string; value: string; note: string; target: AdminSection }[] = [
   { label: 'Địa điểm', value: '24', note: 'Di tích, danh lam, dịch vụ', target: 'places' },
@@ -803,14 +830,6 @@ const handleSectionAction = (action: SectionRow['action']) => {
   font-weight: 800;
 }
 
-.quick-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 20px;
-}
-
-.quick-actions button,
 .section-card button,
 .modal-actions button {
   border: 0;
@@ -1111,6 +1130,507 @@ th {
 
   .admin-menu {
     grid-template-columns: 1fr;
+  }
+}
+
+/* Layout inspired by the requested dashboard reference. */
+.admin-dashboard {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 58px minmax(0, 1fr);
+  grid-template-columns: 1fr;
+  background: #e9e9e9;
+  color: #303b42;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.admin-topbar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+  border-bottom: 1px solid #d7d7d7;
+  background: #fff;
+  min-height: 58px;
+}
+
+.admin-brand {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #1670a9;
+  font-weight: 900;
+  margin: 0;
+  padding: 0 16px;
+  justify-self: start;
+}
+
+.admin-brand img {
+  width: 42px;
+  height: 42px;
+}
+
+.admin-topbar h1 {
+  justify-self: center;
+  margin: 0;
+  color: #3f474d;
+  font-size: 28px;
+  font-weight: 500;
+  letter-spacing: 0;
+}
+
+.admin-top-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-right: 26px;
+  justify-self: end;
+}
+
+.admin-top-actions > button {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  color: #687078;
+  cursor: pointer;
+  font-size: 21px;
+}
+
+.admin-shell {
+  min-height: 0;
+  display: grid;
+  grid-template-columns: 225px minmax(0, 1fr);
+}
+
+.admin-sidebar {
+  border-right: 1px solid #d0d0d0;
+  background: #f5f5f5;
+  color: #5a6269;
+  overflow: auto;
+  padding: 12px 0;
+}
+
+.admin-menu {
+  display: grid;
+  gap: 0;
+}
+
+.admin-menu button {
+  width: 100%;
+  min-height: 44px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 1px solid #ececec;
+  background: transparent;
+  color: #5f666d;
+  cursor: pointer;
+  font: inherit;
+  font-size: 20px;
+  font-weight: 900;
+  padding: 11px 18px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+.admin-menu button:hover,
+.admin-menu button.active {
+  background: #ebf4ff;
+  color: #2768b7;
+}
+
+.menu-caret {
+  color: #a2a8ad;
+  font-size: 11px;
+}
+
+.admin-main {
+  min-width: 0;
+  overflow: auto;
+  padding: 0;
+}
+
+.admin-tabs {
+  min-height: 31px;
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: #2768b7;
+  color: #fff;
+  padding-left: 12px;
+}
+
+.admin-tabs button,
+.visit-site {
+  min-height: 31px;
+  display: inline-flex;
+  align-items: center;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+  font-weight: 900;
+  padding: 0 16px;
+  text-decoration: none;
+}
+
+.admin-tabs button:hover,
+.admin-tabs button.active,
+.visit-site:hover {
+  background: #1f5aa2;
+}
+
+.visit-site {
+  margin-left: auto;
+  margin-right: 12px;
+}
+
+.admin-content {
+  max-width: none;
+  margin: 0 auto;
+  padding: 24px 52px 40px;
+}
+
+.content-heading {
+  display: none;
+}
+
+.admin-account {
+  position: relative;
+}
+
+.admin-user {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #d7f0da;
+  cursor: pointer;
+  padding: 0;
+}
+
+.admin-avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: #62bd72;
+  color: #173b1f;
+  font-size: 14px;
+  font-weight: 900;
+}
+
+.admin-user-text,
+.admin-caret {
+  display: none;
+}
+
+.admin-account-dropdown {
+  top: calc(100% + 8px);
+  right: 0;
+}
+
+.section-card button,
+.modal-actions button {
+  border-radius: 3px;
+  min-height: 34px;
+  font-size: 13px;
+  padding: 8px 12px;
+}
+
+.metric-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 28px;
+  margin: 0 0 28px;
+}
+
+.metric-card {
+  min-height: 134px;
+  display: grid;
+  grid-template-columns: minmax(130px, 0.8fr) minmax(0, 1fr);
+  align-items: center;
+  gap: 24px;
+  border: 0;
+  border-radius: 7px;
+  background: #fff;
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.13);
+  cursor: pointer;
+  padding: 22px 26px;
+  text-align: left;
+}
+
+.metric-card:hover {
+  transform: translateY(-1px);
+}
+
+.metric-copy {
+  display: grid;
+  gap: 4px;
+}
+
+.metric-copy > span {
+  color: #3c454b;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1.25;
+}
+
+.metric-copy strong {
+  color: #4b5563;
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.1;
+}
+
+.metric-copy small {
+  color: #6f7880;
+  font-size: 16px;
+  line-height: 1.3;
+}
+
+.metric-visual {
+  height: 70px;
+  display: block;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.visual-1 {
+  background-image: linear-gradient(145deg, transparent 44%, #4388c7 45%, #4388c7 48%, transparent 49%),
+    linear-gradient(25deg, transparent 48%, #4388c7 49%, #4388c7 52%, transparent 53%);
+}
+
+.visual-2 {
+  background-image: repeating-linear-gradient(90deg, #f0c319 0 4px, transparent 4px 9px);
+}
+
+.visual-3 {
+  background-image: repeating-linear-gradient(105deg, #43a46f 0 2px, transparent 2px 7px);
+}
+
+.visual-4 {
+  background-image: linear-gradient(155deg, transparent 45%, #cf4148 46%, #cf4148 49%, transparent 50%),
+    linear-gradient(25deg, transparent 48%, #cf4148 49%, #cf4148 52%, transparent 53%);
+}
+
+.admin-panels {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(520px, 0.95fr);
+  gap: 36px;
+}
+
+.admin-panel,
+.section-card {
+  border: 1px solid #d7d7d7;
+  border-radius: 4px;
+  background: #fff;
+  overflow: hidden;
+}
+
+.panel-header {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #d7d7d7;
+  padding: 0 18px;
+}
+
+.panel-header h2 {
+  margin: 0;
+  color: #3d454b;
+  font-size: 26px;
+  font-weight: 900;
+}
+
+.text-button {
+  color: #8c98a3;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border-right: 1px solid #d7d7d7;
+  border-bottom: 1px solid #d7d7d7;
+  padding: 18px 22px;
+  text-align: left;
+  vertical-align: middle;
+  font-size: 18px;
+}
+
+th:last-child,
+td:last-child {
+  border-right: 0;
+}
+
+th {
+  background: #f5f5f5;
+  color: #2e343a;
+  font-size: 16px;
+  font-weight: 500;
+  text-transform: none;
+}
+
+tbody tr:nth-child(odd) {
+  background: #dff3fb;
+}
+
+tbody tr:nth-child(even) {
+  background: #fff;
+}
+
+.row-action {
+  border: 1px solid #b9c7d4;
+  border-radius: 3px;
+  background: #fff;
+  color: #2768b7;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 900;
+  padding: 8px 14px;
+  font-size: 18px;
+}
+
+.module-row {
+  display: grid;
+  gap: 5px;
+  border: 0;
+  border-bottom: 1px solid #d7d7d7;
+  background: #fff;
+  cursor: pointer;
+  min-height: 75px;
+  padding: 18px 24px;
+  text-align: left;
+}
+
+.module-row:nth-child(odd) {
+  background: #dff3fb;
+}
+
+.module-row:hover {
+  background: #edf8fc;
+}
+
+.module-row strong {
+  color: #2f3a42;
+  font-size: 18px;
+}
+
+.module-row span {
+  color: #5f6f77;
+  font-size: 17px;
+  line-height: 1.35;
+}
+
+.section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.content-manager-frame {
+  min-height: calc(100vh - 160px);
+  border: 1px solid #d7d7d7;
+  background: #fff;
+}
+
+.content-manager-frame iframe {
+  width: 100%;
+  height: calc(100vh - 160px);
+  min-height: 760px;
+  display: block;
+  border: 0;
+}
+
+.section-card {
+  display: grid;
+  gap: 10px;
+  padding: 20px;
+}
+
+.section-card span {
+  color: #2768b7;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.section-card h2 {
+  margin: 0;
+  color: #303b42;
+}
+
+.section-card p {
+  margin: 0;
+  color: #5f6f77;
+}
+
+.status-message {
+  border-radius: 4px;
+  margin: 0 0 16px;
+}
+
+@media (max-width: 1180px) {
+  .admin-content {
+    padding: 22px 28px 34px;
+  }
+
+  .metric-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .admin-panels {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 760px) {
+  .admin-topbar {
+    grid-template-columns: 1fr auto;
+  }
+
+  .admin-topbar h1 {
+    display: none;
+  }
+
+  .admin-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-menu {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .admin-tabs {
+    overflow-x: auto;
+  }
+
+  .metric-grid,
+  .section-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .metric-card {
+    grid-template-columns: 88px minmax(0, 1fr);
+  }
+
+  .admin-content {
+    padding: 18px;
   }
 }
 </style>
